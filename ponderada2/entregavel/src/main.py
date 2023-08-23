@@ -7,13 +7,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from auth_middleware import token_required
 import jwt
-import json
 
 
 # create the app
 app = Flask(__name__)
 # configure the SQLite database, relative to the app instance folder
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:password@localhost:5432/postgres"
 app.config['JWT_SECRET_KEY'] = "somerandomstring"
 app.config['JWT_ALGORITHM'] = 'HS256'
 db.init_app(app)
@@ -53,16 +52,12 @@ def login_user():
     password_login = request.form['password']
 
     user = Account.query.filter_by(username=username_login).first()
-    print("USERRR: ", user)
-    print("USER ID: ", user.id)
 
     if user and check_password_hash(user.password, password_login):
         try:
             # token should expire after 24 hrs
             key = "somerandomstring"
-            print("USER: ", user.password)
             user_token = jwt.encode({"user_id": str(user.id)}, key, algorithm="HS256")
-            print("USER TOKEN: ", user_token)
 
             # Armazenar o token em um cookie seguro
             response = make_response(redirect(url_for('dashboard')))
