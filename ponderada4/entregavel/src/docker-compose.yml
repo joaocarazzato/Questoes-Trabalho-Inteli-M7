@@ -1,0 +1,43 @@
+version: '0.1'
+
+services:
+
+  application:
+    image: joaocarazzato/modulo7:ponderada4-flask
+    # build: ./flask/. - Apagar o "image" para usar o build a partir do Dockerfile.
+    network_mode: host
+    restart: always
+    expose:
+      - "5000"
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    container_name: web-ponderada
+
+  streamlit-app:
+    image: joaocarazzato/modulo7:ponderada4-streamlit
+    # build: ./streamlit/. - Apagar o "image" para usar o build a partir do Dockerfile.
+    network_mode: host
+    restart: always
+    expose:
+      - "8501"
+    ports:
+      - 8501:8501
+    depends_on:
+      - db
+    container_name: streamlit-ponderada
+
+  db:
+    image: postgres
+    restart: always
+    network_mode: host
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    expose:
+      - "5432"
+    ports:
+      - 5432:5432
+    container_name: banco-db-ponderada
