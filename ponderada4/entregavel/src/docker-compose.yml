@@ -5,6 +5,7 @@ services:
   application:
     image: joaocarazzato/modulo7:ponderada4-flask
     # build: ./flask/. - Apagar o "image" para usar o build a partir do Dockerfile.
+    network_mode: host
     restart: always
     expose:
       - "5000"
@@ -17,6 +18,7 @@ services:
   streamlit-app:
     image: joaocarazzato/modulo7:ponderada4-streamlit
     # build: ./streamlit/. - Apagar o "image" para usar o build a partir do Dockerfile.
+    network_mode: host
     restart: always
     expose:
       - "8501"
@@ -29,6 +31,7 @@ services:
   db:
     image: postgres
     restart: always
+    network_mode: host
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
