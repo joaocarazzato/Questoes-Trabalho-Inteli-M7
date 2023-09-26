@@ -45,7 +45,7 @@ def add_user():
         new_user = Account(username=username, password=senha_hash)
         db.session.add(new_user)
         db.session.commit()
-        return redirect("http://localhost:5000/") 
+        return redirect("/") 
     else:
         return "Invalid Credentials", 401
 
@@ -72,7 +72,7 @@ def login_user():
 
         except Exception as e:
                 return {
-                    "error": "Deu errado familia",
+                    "error": "Algo deu errado",
                     "message": str(e)
                 }, 500
     else:
@@ -80,9 +80,9 @@ def login_user():
 
 
 @app.route('/dashboard')
-@token_required
-def dashboard(current_user):
-    jsonify(current_user)
+# @token_required
+def dashboard():
+    # jsonify(current_user)
     data = Data.query.all()
     return render_template('dashboard.html', data=data)
 
@@ -122,15 +122,15 @@ def add_data():
     return redirect(url_for('dashboard'))
 
 @app.route('/datapublish')
-@token_required
-def datapublish(current_user):
-    jsonify(current_user)
+# @token_required
+def datapublish():
+    # jsonify(current_user)
     return render_template('datapublish.html')
 
 @app.route('/sign_out', methods=["GET"])
 def signout():
 
-    response = make_response(redirect('http://localhost:5000/'))
+    response = make_response(redirect('/'))
     response.delete_cookie('user_id')
     response.delete_cookie('auth_token')
     
