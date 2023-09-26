@@ -82,6 +82,7 @@ def login_user():
 @app.route('/dashboard')
 # @token_required
 def dashboard():
+# def dashboard(current_user):
     # jsonify(current_user)
     data = Data.query.all()
     return render_template('dashboard.html', data=data)
@@ -124,6 +125,7 @@ def add_data():
 @app.route('/datapublish')
 # @token_required
 def datapublish():
+# def datapublish(current_user):
     # jsonify(current_user)
     return render_template('datapublish.html')
 
